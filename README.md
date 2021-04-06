@@ -12,3 +12,8 @@
     * `bundle install`
     * `rails db:create`
     * `rails db:migrate`
+
+## Books routes
+    http://localhost:3000/books => list all books
+    http://localhost:3000/books/:id => get book by id
+    
