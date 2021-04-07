@@ -1,7 +1,15 @@
 class BooksController < ApplicationController
   # Return list of all books
   def index
-    render json: Book.all
+    books = Book.all
+    if params[:title] != nil
+      books = books.select { |book| book[:title].include? params[:title].titleize }
+
+    elsif params[:author] != nil
+      books = books.select { |book| book[:author].include? params[:author].titleize }
+    end
+
+    render json: books
   end
 
   # Retrieve single book determined by id
@@ -11,7 +19,11 @@ class BooksController < ApplicationController
 
   # Create new books
   def create
-    book = Book.new(book_params)
+    title = book_params[:title].titleize
+    author = book_params[:author].titleize
+    description = book_params[:description].capitalize
+    book = Book.new(title: title, author: author, description: description)
+
 
     if book.save
       render json: book, status: :created
