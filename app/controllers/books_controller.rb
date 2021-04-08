@@ -1,9 +1,9 @@
 class BooksController < ApplicationController
-  # Return list of all books
+  # Return list of all books and filter by url params if given
   def index
     books = Book.all
+    render json: books
     if params[:title] != nil
-      # books = books.select { |book| book[:title].include? params[:title].titleize }
       books = books.where("title like ?", "%#{params[:title]}%".titleize)
     end
 
@@ -11,7 +11,7 @@ class BooksController < ApplicationController
       books = books.where("author like ?", "%#{params[:author]}%".titleize)
     end
 
-    render json: books
+
   end
 
   # Retrieve single book determined by id
@@ -52,4 +52,3 @@ class BooksController < ApplicationController
   end
 
 end
-# murl --header "Content-Type: application/json" --request POST --data '{"author": "Ja", "title": "AB"}' http://localhost:3000/books
