@@ -3,10 +3,12 @@ class BooksController < ApplicationController
   def index
     books = Book.all
     if params[:title] != nil
-      books = books.select { |book| book[:title].include? params[:title].titleize }
+      # books = books.select { |book| book[:title].include? params[:title].titleize }
+      books = books.where("title like ?", "%#{params[:title]}%".titleize)
+    end
 
-    elsif params[:author] != nil
-      books = books.select { |book| book[:author].include? params[:author].titleize }
+    if params[:author] != nil
+      books = books.where("author like ?", "%#{params[:author]}%".titleize)
     end
 
     render json: books
