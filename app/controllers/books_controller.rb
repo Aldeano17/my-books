@@ -2,7 +2,6 @@ class BooksController < ApplicationController
   # Return list of all books and filter by url params if given
   def index
     books = Book.all
-    render json: books
     if params[:title] != nil
       books = books.where("title like ?", "%#{params[:title]}%".titleize)
     end
@@ -11,7 +10,7 @@ class BooksController < ApplicationController
       books = books.where("author like ?", "%#{params[:author]}%".titleize)
     end
 
-
+    render json: books
   end
 
   # Retrieve single book determined by id
